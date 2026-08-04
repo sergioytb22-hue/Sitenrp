@@ -1,0 +1,18 @@
+{
+  "name": "sitenrp-worker",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker pour Sitenrp API",
+  "main": "src/worker.js",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["cloudflare", "worker", "api"],
+  "author": "sergioytb22-hue",
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}
