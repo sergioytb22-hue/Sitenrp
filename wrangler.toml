@@ -1,0 +1,17 @@
+name = "sitenrp-worker"
+type = "service"
+main = "src/worker.js"
+compatibility_date = "2024-01-01"
+
+[env.production]
+routes = [
+  { pattern = "api.sitenrp.com/api/*", zone_name = "sitenrp.com" }
+]
+
+[[kv_namespaces]]
+binding = "DATA"
+id = "sitenrp-data"
+preview_id = "sitenrp-data-preview"
+
+[build]
+command = "npm install"
