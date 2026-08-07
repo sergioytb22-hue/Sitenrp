@@ -3,114 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Section Stratégique - Suna</title>
+    <title>Sitenrp - Gestion des Rapports</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="grades.css">
 </head>
 <body>
-    <div id="auth-container" class="auth-container" style="display: none;">
-        <div class="auth-box">
-            <h1>Section Stratégique de Suna</h1>
-            <div class="auth-toggle">
+    <!-- Conteneur d'authentification -->
+    <div id="auth-container">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h1>Sitenrp</h1>
+                <p>Plateforme de Gestion des Rapports</p>
+            </div>
+
+            <div class="auth-tabs">
                 <button class="auth-btn active" onclick="toggleAuth('login')">Connexion</button>
                 <button class="auth-btn" onclick="toggleAuth('register')">Inscription</button>
             </div>
-            
-            <div id="login-form" class="auth-form active">
-                <input type="text" id="login-username" placeholder="Nom d'utilisateur" />
-                <input type="password" id="login-password" placeholder="Mot de passe" />
-                <button onclick="login()">Se connecter</button>
+
+            <!-- Formulaire Login -->
+            <form id="login-form" class="auth-form active">
+                <input type="text" id="login-username" placeholder="Nom d'utilisateur" required>
+                <input type="password" id="login-password" placeholder="Mot de passe" required>
+                <button type="button" onclick="login()" class="btn-primary">Se connecter</button>
                 <div id="login-error" class="error-message"></div>
-            </div>
-            
-            <div id="register-form" class="auth-form">
-                <input type="text" id="register-username" placeholder="Nom d'utilisateur" />
-                <input type="password" id="register-password" placeholder="Mot de passe" />
-                <input type="password" id="register-password-confirm" placeholder="Confirmer le mot de passe" />
-                <button onclick="register()">S'inscrire</button>
+            </form>
+
+            <!-- Formulaire Register -->
+            <form id="register-form" class="auth-form">
+                <input type="text" id="register-username" placeholder="Nom d'utilisateur" required>
+                <input type="password" id="register-password" placeholder="Mot de passe" required>
+                <input type="password" id="register-password-confirm" placeholder="Confirmer mot de passe" required>
+                <button type="button" onclick="register()" class="btn-primary">S'inscrire</button>
                 <div id="register-error" class="error-message"></div>
-            </div>
+            </form>
         </div>
     </div>
 
+    <!-- Conteneur principal -->
     <div id="main-container" style="display: none;">
+        <!-- Barre de navigation -->
         <nav class="navbar">
-            <div class="navbar-brand">Section Stratégique de Suna</div>
-            <div class="navbar-menu">
-                <button onclick="showPage('home')" class="nav-btn">Accueil</button>
-                <button onclick="showPage('reports')" class="nav-btn">Rapports</button>
-                <button id="admin-btn" onclick="showPage('admin')" class="nav-btn" style="display: none;">Administration</button>
-                <button onclick="logout()" class="nav-btn logout-btn">Déconnexion</button>
+            <div class="navbar-brand">
+                <h1>Sitenrp</h1>
             </div>
-            <div class="user-info" id="user-info"></div>
+            <div class="navbar-menu">
+                <button class="nav-btn" onclick="showPage('home')">Accueil</button>
+                <button class="nav-btn" onclick="showPage('reports')">Rapports</button>
+                <button class="nav-btn" id="admin-btn" style="display: none;" onclick="showPage('admin')">Admin</button>
+                <button class="nav-btn" onclick="showPage('clock')">⏰ Horloges</button>
+            </div>
+            <div class="navbar-user">
+                <div id="user-info"></div>
+                <button class="btn-logout" onclick="logout()">Déconnexion</button>
+            </div>
         </nav>
 
-        <main class="container">
+        <!-- Contenu principal -->
+        <div class="main-content">
             <!-- Page Accueil -->
             <div id="home-page" class="page active">
-                <div class="welcome-section">
-                    <h1>Bienvenue à la Section Stratégique de Suna</h1>
-                    <p>Gérez et consultez les rapports stratégiques de Suna</p>
-                    <div class="quick-stats">
-                        <div class="stat-card">
-                            <h3 id="total-reports">0</h3>
-                            <p>Rapports Total</p>
-                        </div>
-                        <div class="stat-card">
-                            <h3 id="user-reports">0</h3>
-                            <p>Mes Rapports</p>
-                        </div>
+                <div class="page-header">
+                    <h2>Bienvenue sur Sitenrp</h2>
+                    <p>Plateforme de gestion des rapports stratégiques</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Rapports Totaux</h3>
+                        <p id="total-reports" class="stat-number">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Mes Rapports</h3>
+                        <p id="user-reports" class="stat-number">0</p>
                     </div>
                 </div>
             </div>
 
             <!-- Page Rapports -->
             <div id="reports-page" class="page">
-                <div class="reports-header">
-                    <h1>Rapports Stratégiques</h1>
-                    <button onclick="showReportForm()" class="btn-primary">+ Nouveau Rapport</button>
+                <div class="page-header">
+                    <h2>Mes Rapports</h2>
+                    <button class="btn-primary" onclick="showReportForm()">+ Nouveau Rapport</button>
                 </div>
 
+                <!-- Formulaire Rapport -->
                 <div id="report-form-container" class="report-form-container" style="display: none;">
-                    <div class="form-box">
-                        <h2>Créer un Nouveau Rapport</h2>
-                        <form onsubmit="submitReport(event)">
-                            <input type="text" id="report-name" placeholder="Nom" required />
-                            <input type="text" id="report-firstname" placeholder="Prénom" required />
-                            <input type="date" id="report-date" required />
-                            <textarea id="report-content" placeholder="Contenu du rapport" required></textarea>
-                            <div class="image-upload">
-                                <label>Ajouter une image (optionnel)</label>
-                                <input type="file" id="report-image" accept="image/*" />
-                            </div>
-                            <div class="form-buttons">
-                                <button type="submit" class="btn-primary">Soumettre</button>
-                                <button type="button" onclick="hideReportForm()" class="btn-secondary">Annuler</button>
-                            </div>
-                        </form>
-                    </div>
+                    <form onsubmit="submitReport(event)" class="report-form">
+                        <div class="form-group">
+                            <label>Nom</label>
+                            <input type="text" id="report-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Prénom</label>
+                            <input type="text" id="report-firstname" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" id="report-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Contenu</label>
+                            <textarea id="report-content" rows="6" required></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">Créer</button>
+                            <button type="button" class="btn-secondary" onclick="hideReportForm()">Annuler</button>
+                        </div>
+                    </form>
                 </div>
 
-                <div id="reports-list" class="reports-list"></div>
+                <!-- Liste Rapports -->
+                <div id="reports-list" class="reports-grid"></div>
             </div>
 
-            <!-- Page Administration -->
+            <!-- Page Admin -->
             <div id="admin-page" class="page">
-                <h1>Panneau d'Administration</h1>
-                <div class="admin-sections">
-                    <div class="admin-section">
-                        <h2>Gestion des Utilisateurs</h2>
-                        <div id="users-list" class="users-list"></div>
-                    </div>
-                    <div class="admin-section">
-                        <h2>Gestion des Rapports</h2>
-                        <div id="admin-reports-list" class="admin-reports-list"></div>
-                    </div>
+                <div class="page-header">
+                    <h2>Panneau d'Administration</h2>
+                </div>
+
+                <!-- Gestion Utilisateurs -->
+                <div class="admin-section">
+                    <h3>Gestion des Utilisateurs</h3>
+                    <div id="users-list" class="users-grid"></div>
+                </div>
+
+                <!-- Gestion Rapports -->
+                <div class="admin-section">
+                    <h3>Gestion des Rapports</h3>
+                    <div id="admin-reports-list" class="reports-grid"></div>
                 </div>
             </div>
-        </main>
+
+            <!-- Page Horloges -->
+            <div id="clock-page" class="page">
+                <div class="page-header">
+                    <h2>⏰ Horloges Mondiales</h2>
+                </div>
+                <div id="clocks-grid" class="clocks-grid"></div>
+            </div>
+        </div>
     </div>
 
-    <script src="grades.js"></script>
     <script src="app.js"></script>
+    <script src="clock.js"></script>
+    <script src="grades.js"></script>
 </body>
 </html>
